@@ -1,24 +1,15 @@
 # sudo apt install python3-libgpiod
 
-
 import gpiod
+import time
 
-if __name__ == '__main__':
-    for chip in gpiod.ChipIter():
-        print('{} - {} lines:'.format(chip.name(), chip.num_lines()))
+chip=gpiod.Chip('gpiochip0')
 
-        for line in gpiod.LineIter(chip):
-            offset = line.offset()
-            name = line.name()
-            consumer = line.consumer()
-            direction = line.direction()
-            active_state = line.active_state()
+lines = chip.get_lines([65])
+lines.request(consumer='foobar', type=gpiod.LINE_REQ_DIR_OUT, default_vals=[0])
 
-            print('\tline {:>3}: {:>18} {:>12} {:>8} {:>10}'.format(
-                    offset,
-                    'unnamed' if name is None else name,
-                    'unused' if consumer is None else consumer,
-                    'input' if direction == gpiod.Line.DIRECTION_INPUT else 'output',
-                    'active-low' if active_state == gpiod.Line.ACTIVE_LOW else 'active-high'))
-
-        chip.close()
+while True:
+    lines.set_values([1])
+    time.sleep(1)
+    lines.set_values([0])
+    time.sleep(1)
