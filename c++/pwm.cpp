@@ -11,7 +11,7 @@
 #include <csignal>
 #include <gpiod.hpp>
 
-#define OUTPUT_PIN 64
+#define OUTPUT_PIN 65
 #define S_IN_US 1000000
 #define LARGEST_FREQUENCY 100000
 #define RPI_MAX_FREQUENCY 3000
@@ -85,24 +85,27 @@ int main(int argc, char* argv[]) {
     line.request(request);
 
     bool state = false;
-    float dutyCicle = 40; // 40% do meu tempo em alta => 0,4*
-    auto duration_Hight = std::chrono::microseconds(   (dutyCicle/100) *(S_IN_US/frequency));
-    auto duration_Low   = std::chrono::microseconds((1-(dutyCicle/100))*(S_IN_US/frequency));
+    long dutyCicle = 0.5; // 40% do meu tempo em alta => 0,4*
+    auto duration_Hight = std::chrono::microseconds(   dutyCicle *(S_IN_US/frequency));
+    auto duration_Low   = std::chrono::microseconds((1-dutyCicle)*(S_IN_US/frequency));
+
 
     while (run) {
         auto start = std::chrono::system_clock::now();
         line.set_value(state);
         state = !state;
-
+		
         if(state == true) std::this_thread::sleep_until(start + duration_Hight);
         else std::this_thread::sleep_until(start + duration_Low);
+        
 
     }
+    
     line.set_value(0);
     line.release();
 
     return 0;
-}
+}	
 
 void signalHandler(int signum) {
     run = false;
