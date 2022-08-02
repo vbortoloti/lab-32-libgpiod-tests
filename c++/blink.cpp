@@ -10,7 +10,7 @@
 #include <chrono>
 #include <csignal>
 #include <gpiod.hpp>
-
+#define S_IN_US 1000000
 #define OUTPUT_PIN 65
 static bool run = true;
 
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 
         std::this_thread::sleep_until(start + duration);
     }
-    
+
     line.set_value(0);
     line.release();
 
