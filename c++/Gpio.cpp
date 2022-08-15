@@ -97,77 +97,88 @@ void Gpio::error(int num){
         break;
     }
 }
-
 int getPin(std::string pinName){
-    switch (stoi(pinName))
-    {
-    case stoi("A28"):
-        return 28;
-        break;
-    case stoi("B0"):
-        return 32;
-        break;
-    case stoi("B1"):
-        return 33;
-        break;
-    case stoi("B2"):
-        return 34;
-        break;
-    case stoi("B8"):
-        return 40;
-        break;
-    case stoi("B10"):
-        return 42;
-        break;
-    case stoi("B13"):
-        return 45;
-        break;
-    case stoi("B15"):
-        return 47;
-        break;
-    case stoi("B16"):
-        return 48;
-        break;
-    case stoi("B18"):
-        return 50;
-        break;
-    case stoi("B19"):
-        return 51;
-        break;
-    case stoi("C0"):
-        return 64;
-        break;
-    case stoi("C1"):
-        return 65;
-        break;
-    case stoi("C4"):
-        return 67;
-        break;
-    case stoi("C5"):
-        return 69;
-        break;
-    case stoi("C6"):
-        return 70;
-        break;
-    case stoi("C23"):
-        return 87;
-        break;
-    case stoi("C24"):
-        return 88;
-        break;
-    case stoi("D30"):
-        return 126;
-        break;
-    case stoi("E2"):
-        return 130;
-        break;
-    case stoi("E3"):
-        return 131;
-        break;
-        
-        
-    default:
-        return -1;
-        break;
+    char front = pinName.front();
+    pinName.erase(pinName.begin());
+    int number = stol(pinName);
+
+    if(front == 'A'){
+        if(number == 28){
+            return 28;
+        }
+    }else if(front == 'B'){
+        switch (number)
+        {
+        case 0:
+            return 32;
+            break;
+        case 1:
+            return 33;
+            break;
+        case 2:
+            return 34;
+            break;
+        case 8:
+            return 40;
+            break;
+        case 10:
+            return 42;
+            break;
+        case 13:
+            return 45;
+            break;
+        case 15:
+            return 47;
+            break;
+        case 16:
+            return 48;
+            break;
+        case 18:
+            return 50;
+            break;
+        case 19:
+            return 51;
+            break;
+        default:
+            return -1;
+            break;
+        }
+    }else if(front == 'C'){
+        switch (number)
+        {
+        case 0:
+            return 64;
+            break;
+        case 1:
+            return 65;
+            break;
+        case 4:
+            return 67;
+            break;
+        case 5:
+            return 69;
+            break;
+        case 6:
+            return 70;
+            break;
+        case 23:
+            return 87;
+            break;
+        case 24:
+            return 88;
+            break;
+        default:
+            return -1;
+            break;
+        }
+    }else if(front == 'D'){
+        if(number == 30) return 126;
+        else  return -1;
+    }else if(front == 'E'){
+        if(number == 2) return 130;
+        else if(number == 3) return 131;
+        else return -1;
     }
+   
+    
 }
