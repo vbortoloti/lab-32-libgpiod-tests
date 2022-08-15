@@ -99,69 +99,69 @@ void Gpio::error(int num){
 }
 
 int getPin(std::string pinName){
-    switch (pinName)
+    switch (str2int(pinName))
     {
-    case "A28":
+    case str2int("A28"):
         return 28;
         break;
-    case "B0":
+    case str2int("B0"):
         return 32;
         break;
-    case "B1":
+    case str2int("B1"):
         return 33;
         break;
-    case "B2":
+    case str2int("B2"):
         return 34;
         break;
-    case "B8":
+    case str2int("B8"):
         return 40;
         break;
-    case "B10":
+    case str2int("B10"):
         return 42;
         break;
-    case "B13":
+    case str2int("B13"):
         return 45;
         break;
-    case "B15":
+    case str2int("B15"):
         return 47;
         break;
-    case "B16":
+    case str2int("B16"):
         return 48;
         break;
-    case "B18":
+    case str2int("B18"):
         return 50;
         break;
-    case "B19":
+    case str2int("B19"):
         return 51;
         break;
-    case "C0":
+    case str2int("C0"):
         return 64;
         break;
-    case "C1":
+    case str2int("C1"):
         return 65;
         break;
-    case "C4":
+    case str2int("C4"):
         return 67;
         break;
-    case "C5":
+    case str2int("C5"):
         return 69;
         break;
-    case "C6":
+    case str2int("C6"):
         return 70;
         break;
-    case "C23":
+    case str2int("C23"):
         return 87;
         break;
-    case "C24":
+    case str2int("C24"):
         return 88;
         break;
-    case "D30":
+    case str2int("D30"):
         return 126;
         break;
-    case "E2":
+    case str2int("E2"):
         return 130;
         break;
-    case "E3":
+    case str2int("E3"):
         return 131;
         break;
         
