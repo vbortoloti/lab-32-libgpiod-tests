@@ -12,7 +12,9 @@ Gpio::Gpio(int pin, int mode, std::string alias)
     chipNumber = "0";
     enable();
 }
-
+Gpio::~Gpio(){
+    releaseAll();
+}
 void Gpio::enable()
 {
     this->chip = gpiod::chip(chipNumber, gpiod::chip::OPEN_BY_NUMBER);
@@ -29,7 +31,7 @@ void Gpio::enable()
     }
     if (line.is_used())
     {
-        error(3);
+        error(4);
         return;
     }
 
@@ -45,27 +47,24 @@ void Gpio::enable()
     std::cout << alias << " is ready to use" << std::endl;
 
     line.release();
-    chip.release();
 }
 
 void Gpio::releaseAll()
 {
-    /*
+   
     line.set_value(0);
     line.release();
+    std::cout << "GPIO released" << pin << std::endl;
 
-
-     */
-    std::cout << "Releasing GPIO " << pin << std::endl;
 }
 
-void Gpio::write(int status)
+void Gpio::write(int state)
 {
-    this->status = status;
-    /*
+    this->state = state;
+    
     line.set_value(state);
-     */
-    std::cout << "Writing " << status << std::endl;
+    
+    std::cout << "Writing " << state << std::endl;
 }
 
 int Gpio::read()
@@ -84,10 +83,11 @@ void Gpio::error(int num){
     case 3:
         std::cerr << "Could not find output line" << std::endl;
         break;
-    case 3:
+    case 4:
         std::cerr << "output line is already used!" << std::endl;
         break;
     default:
         break;
     }
 }
+

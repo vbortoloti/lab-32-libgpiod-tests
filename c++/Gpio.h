@@ -16,13 +16,14 @@ private:
 
 public:
     Gpio(int pin, int mode, std::string alias);
+    ~Gpio();
     void enable();
     void releaseAll();
 
-    void write(int status);
+    void write(int state);
     int read();
     void attachInterrupt();
     
-    void error(int num){}
+    void error(int num);
 };
 #endif
