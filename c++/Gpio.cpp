@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-Gpio::Gpio(int pin, int mode, std::string alias)
+Gpio::Gpio(Pin pin, int mode, std::string alias)
 {
     this->pin = pin;
     this->mode = mode;
