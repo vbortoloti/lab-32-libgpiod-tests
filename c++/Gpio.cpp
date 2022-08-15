@@ -18,19 +18,19 @@ void Gpio::enable()
     this->chip = gpiod::chip(chipNumber, gpiod::chip::OPEN_BY_NUMBER);
     if (!chip)
     {
-        std::cerr << "Could not find/ open gpio chip" << std::endl;
-        return 2;
+        error(2);
+        return;
     }
     this->line = chip.get_line(pin);
     if (!line)
     {
-        std::cerr << "Could not find output line" << std::endl;
-        return 3;
+        error(3);
+        return;
     }
     if (line.is_used())
     {
-        std::cerr << "output line is already used!" << std::endl;
-        return 4;
+        error(3);
+        return;
     }
 
     gpiod::line_request request;
@@ -73,4 +73,21 @@ int Gpio::read()
     // return val = gpiod_line_get_value(line);
     std::cout << "Reading pin " << pin << std::endl;
     return 0;
+}
+
+void Gpio::error(int num){
+    switch (num)
+    {
+    case 2:
+        std::cerr << "Could not find/ open gpio chip" << std::endl;
+        break;
+    case 3:
+        std::cerr << "Could not find output line" << std::endl;
+        break;
+    case 3:
+        std::cerr << "output line is already used!" << std::endl;
+        break;
+    default:
+        break;
+    }
 }

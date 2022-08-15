@@ -8,7 +8,7 @@ class Gpio
 private:
     std::string alias;
     ::gpiod::chip chip;
-    string chipNumber;
+    std::string chipNumber;
     ::gpiod::line line;
     int pin;
     int mode; // Output; input; interrupt
@@ -22,5 +22,7 @@ public:
     void write(int status);
     int read();
     void attachInterrupt();
+    
+    void error(int num){}
 };
 #endif
