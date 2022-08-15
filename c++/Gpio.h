@@ -1,12 +1,15 @@
 #include <string>
+#include <gpiod.hpp>
+
 #ifndef RELOGIO_H
 #define RELOGIO_H
 class Gpio
 {
 private:
     std::string alias;
-    int chip;
-    int line;
+    ::gpiod::chip chip;
+    string chipNumber;
+    ::gpiod::line line;
     int pin;
     int mode; // Output; input; interrupt
     int status;
@@ -14,7 +17,7 @@ private:
 public:
     Gpio(int pin, int mode, std::string alias);
     void enable();
-    void release();
+    void releaseAll();
 
     void write(int status);
     int read();
