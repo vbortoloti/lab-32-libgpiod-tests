@@ -26,6 +26,5 @@ public:
     void write(int state);
     int read();
     void attachInterrupt();
-    
 };
 #endif

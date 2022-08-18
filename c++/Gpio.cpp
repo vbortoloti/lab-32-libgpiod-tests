@@ -4,6 +4,30 @@
 #include <string>
 #include <iostream>
 
+std::map<std::string,int> mapping = {
+{"A28", 28 },
+{"B0" , 32 },
+{"B1" , 33 },
+{"B2" , 34 },
+{"B8" , 40 },
+{"B10", 42 },
+{"B13", 45 },
+{"B15", 47 },
+{"B16", 48 },
+{"B18", 50 },
+{"B19", 51 },
+{"C0" , 64 },
+{"C1" , 65 },
+{"C4" , 68 },
+{"C5" , 69 },
+{"C6" , 70 },
+{"C23", 87 },
+{"C24", 88 },
+{"D30", 126 },
+{"E2" , 130 },
+{"E3" , 131 }
+};
+
 Gpio::Gpio(std::string pin, int mode, std::string alias)
 {
     this->pin = getPin(pin);
@@ -16,9 +40,11 @@ Gpio::Gpio(std::string pin, int mode, std::string alias)
         error(1);
     }
 }
+
 Gpio::~Gpio(){
     releaseAll();
 }
+
 void Gpio::enable()
 {
     this->chip = gpiod::chip(chipNumber, gpiod::chip::OPEN_BY_NUMBER);
@@ -55,19 +81,15 @@ void Gpio::enable()
 
 void Gpio::releaseAll()
 {
-   
     line.set_value(0);
     line.release();
     std::cout << "GPIO released" << pin << std::endl;
-
 }
 
 void Gpio::write(int state)
 {
     this->state = state;
-    
     line.set_value(state);
-    
     std::cout << "Writing " << state << std::endl;
 }
 
@@ -82,6 +104,7 @@ void Gpio::error(int num){
     switch (num)
     {
     case 1:
+        //throw error
         std::cerr << "Invalid GPIO" << std::endl;
         break;
     case 2:
@@ -97,88 +120,9 @@ void Gpio::error(int num){
         break;
     }
 }
-int getPin(std::string pinName){
-    char front = pinName.front();
-    pinName.erase(pinName.begin());
-    int number = stol(pinName);
 
-    if(front == 'A'){
-        if(number == 28){
-            return 28;
-        }
-    }else if(front == 'B'){
-        switch (number)
-        {
-        case 0:
-            return 32;
-            break;
-        case 1:
-            return 33;
-            break;
-        case 2:
-            return 34;
-            break;
-        case 8:
-            return 40;
-            break;
-        case 10:
-            return 42;
-            break;
-        case 13:
-            return 45;
-            break;
-        case 15:
-            return 47;
-            break;
-        case 16:
-            return 48;
-            break;
-        case 18:
-            return 50;
-            break;
-        case 19:
-            return 51;
-            break;
-        default:
-            return -1;
-            break;
-        }
-    }else if(front == 'C'){
-        switch (number)
-        {
-        case 0:
-            return 64;
-            break;
-        case 1:
-            return 65;
-            break;
-        case 4:
-            return 67;
-            break;
-        case 5:
-            return 69;
-            break;
-        case 6:
-            return 70;
-            break;
-        case 23:
-            return 87;
-            break;
-        case 24:
-            return 88;
-            break;
-        default:
-            return -1;
-            break;
-        }
-    }else if(front == 'D'){
-        if(number == 30) return 126;
-        else  return -1;
-    }else if(front == 'E'){
-        if(number == 2) return 130;
-        else if(number == 3) return 131;
-        else return -1;
-    }
-   
-    
-}
+int Gpio::getPin(std::string pinName){
+    std::map<std::string, int>::const_iterator iter = mapping.find(pinName);
+    if (iter != mapping.end()) return iter->second;
+    else return -1;
+}   
