@@ -3,19 +3,19 @@ from labrador_sdk.main import Labrador
 import time
 import sys
 
-def getGpio(pin):
-    if(pin == 3):
-        labrador.gpio3.enable_io(GPIO.Direction.OUTPUT, alias="led_out")
-    elif(pin == 7):
-        labrador.gpio7.enable_io(GPIO.Direction.OUTPUT, alias="led_out")
-    else:
-        labrador.gpio11.enable_io(GPIO.Direction.OUTPUT, alias="led_out") 
-    
+
 
 pin = int(sys.argv[1])
 labrador = Labrador()   
-getGpio(pin)
+
+if(pin == 3):
+    labrador.gpio3.enable_io(GPIO.Direction.OUTPUT, alias="led_out")
+elif(pin == 7):
+    labrador.gpio7.enable_io(GPIO.Direction.OUTPUT, alias="led_out")
+else:
+    labrador.gpio11.enable_io(GPIO.Direction.OUTPUT, alias="led_out") 
 print("runnin")
+
 while True:
     labrador.led_status.high()
     time.sleep(0.5)
